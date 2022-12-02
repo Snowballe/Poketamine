@@ -8,3 +8,9 @@
 - [] Navigation propre
 - [] Faire du frontend, touche d'humour par ci par là
 - [] Faire une jolie doc
+
+## Commandes à effectuer :
+- py manage.py migrate
+- py manage.py createsuperuser
+    - username: admin
+    - passwd: admin
