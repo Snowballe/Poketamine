@@ -14,3 +14,4 @@
 - py manage.py createsuperuser
     - username: admin
     - passwd: admin
+- py manage.py runserver
