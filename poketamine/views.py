@@ -3,6 +3,7 @@ from time import sleep
 from django.http import HttpResponse
 from django.shortcuts import render
 import requests
+from django.views.decorators.csrf import csrf_exempt
 
 # Test if a string is in a list of string
 def stringInList(str, list):
@@ -24,14 +25,18 @@ def UpdatePokemons(pokemons: list):
         for i in range(len(tmp.get("moves"))):
             moves.append(tmp.get("moves")[i].get("move").get("name"))
         tmPoke = { 
+            "id": tmp.get("id"),
             "name": tmp.get("name"),
             "image": tmp.get("sprites").get("front_default"),
             "types": types,
             "stats": tmp.get("stats"),
             "moves": moves,
             "height": tmp.get("height"),
-            "weight": tmp.get("weight")
+            "weight": tmp.get("weight"),
+            "next": "",
+            "prev": ""
         }
+        print(tmPoke)
         filteredPokemons.append(tmPoke)
     return filteredPokemons
 
@@ -80,4 +85,57 @@ def details(_, pokemon: str):
 
     # get pokemon details
     pokemonDetails = list(filter(lambda x: x.get("name") == pokemon, reqPokemons))[0]
-    return HttpResponse(f"Details for {pokemonDetails.get('moves')}")
+    pokemonIndex = reqPokemons.index(pokemonDetails)
+    pokemonHasNext = pokemonIndex != len(reqPokemons) - 1
+    pokemonHasPrev = pokemonIndex > 0
+    if pokemonHasNext:
+        nextPokemon = reqPokemons[pokemonIndex + 1]
+    else:
+        nextPokemon = None
+    
+    if pokemonHasPrev:
+        prevPokemon = reqPokemons[pokemonIndex - 1]
+    else:
+        prevPokemon = None
+    pokemonDetails.update({"next": nextPokemon, "prev": prevPokemon})
+    context = {'pokemon': pokemonDetails}
+    return render(_, 'poketamine/details.html', context)
+
+@csrf_exempt
+def addToTeam(request):
+    if request.method == "POST":
+        try:
+            body = json.loads(request.body)
+            print(body)
+            with open("team.json", "r") as file:
+                team = json.load(file)
+            with open("pokemons.json", "r") as file:
+                pokemons = json.load(file)
+            pokemon = list(filter(lambda x: x.get("name") == body.get("name"), pokemons))[0]
+            try:
+                if len(team[body.get("teamId")]["pokemons"]) == 6:
+                    return HttpResponse("Team is full", status=406)
+                team[body.get("teamId")]["pokemons"].append(pokemon)
+            except:
+                team.update({
+                    body.get("teamId"): {"teamId": body.get("teamId"), "pokemons": [pokemon]}
+                })
+
+            with open("team.json", "w") as file:
+                file.write(json.dumps(team))
+            return HttpResponse("Success")
+        except Exception as e:
+            print(e)
+            return HttpResponse("Error", status=500)
+    else:
+        return HttpResponse("Error 404", status=404)
+    
+def team(request):
+    try:
+        with open("team.json", "r") as file:
+            teams = json.load(file)
+    except:
+        teams = []
+    context = {"teams": teams}
+    print(context)
+    return render(request, 'poketamine/team.html', context)

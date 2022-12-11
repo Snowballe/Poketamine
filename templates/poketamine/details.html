@@ -1,0 +1,57 @@
+<h1>Details</h1>
+
+<div>
+    {% if pokemon %}
+        <image src={{ pokemon.image }}></image>
+        <h3>{{ pokemon.name }}</h3>
+        <p>Id: {{ pokemon.id }}</p>
+        <p>Types: {{ pokemon.types }}</p>
+        <p>Height: {{ pokemon.height }}</p>
+        <p>Weight: {{ pokemon.weight }}</p>
+        <p>Moves: {{ pokemon.moves }}</p>
+        <div>
+            <a href="/poketamine/">
+                <button>Back to the list</button>
+            </a>
+            {% if pokemon.prev %}
+            <a href="/poketamine/details/{{pokemon.prev.name}}">
+                <button>Previous</button>
+            </a>
+            {% endif %}
+            {% if pokemon.next %}
+            <a href="/poketamine/details/{{pokemon.next.name}}">
+                <button>Next</button>
+            </a>
+            {% endif %}
+            <div>
+                <input type="number" id="teamId" name="teamId" placeholder="Team id" />
+                <button onclick="addToTeam()">Add to team</button>
+            </div>
+        </div>
+</div>
+    {% else %}
+    <p>No pokemon found.</p>
+    {% endif %}
+<script type="text/javascript">
+    var pokemon = "{{ pokemon.name }}";
+    console.log(pokemon);
+    const addToTeam=async()=> {
+        const teamId = document.getElementById("teamId").value;
+        const response = await fetch('/poketamine/addToTeam/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({teamId: teamId, name: pokemon})
+        });
+        if (response.status == 200) {
+            alert("Pokemon added to team");
+        }
+        else if (response.status == 406) {
+            alert("Pokemon team is full");
+        }
+        else {
+            alert("Error adding pokemon to team");
+        }
+    };
+</script>
