@@ -137,5 +137,4 @@ def team(request):
     except:
         teams = []
     context = {"teams": teams}
-    print(context)
     return render(request, 'poketamine/team.html', context)
