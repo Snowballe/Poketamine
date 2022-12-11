@@ -1,0 +1,19 @@
+<form action="/poketamine">
+    <input type="text" name="search" placeholder="Search for a pokemon" />
+    <input type="submit" value="Search" />
+</form>
+
+{% if pokemons %}
+<ul>
+    {% for pokemon in pokemons %}
+        <li>
+            <a href="/poketamine/details/{{ pokemon.name }}">
+                <image src={{ pokemon.image }}></image>
+                <h3>{{ pokemon.name }}</h3>
+            </a>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No pokemon found.</p>
+{% endif %}
