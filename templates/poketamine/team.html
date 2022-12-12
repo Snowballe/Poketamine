@@ -1,5 +1,43 @@
-<h1>team</h1>
+<script type="text/javascript">
 
+    const removeTeam = async(teamId) => {
+        const response = await fetch('/poketamine/removeTeam/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({teamId: teamId})
+        });
+           if (response.status == 200) {
+            alert("team " + teamId + " removed");
+            window.location.href = "/poketamine/team";
+        }
+            else {
+                alert("Failed to remove team " + teamId);
+            }
+    };
+
+    const removePokemon = async(teamId, pokemonId) => {
+        const response = await fetch('/poketamine/removePokemon/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({teamId: teamId, pokemonId: pokemonId})
+        });
+           if (response.status == 200) {
+            alert("remove pokemon " + (pokemonId + 1) + " from team " + teamId);
+            window.location.href = "/poketamine/team";
+        }
+            else {
+                alert("Failed to remove pokemon " + pokemonId + " from team " + teamId);
+            }
+    };
+</script>
+<h1>Teams</h1>
+<a href="/poketamine/">
+    <button>Back to the list</button>
+</a>
 {% if teams %}
 <ul>
     {% for key, team in teams.items %}
@@ -24,15 +62,8 @@
     {% endfor %}
     </ul>
 {% else %}
-    <p>No pokemon found.</p>
+    <p>No teams found.</p>
 {% endif %}
 
-<script  type="text/javascript">
-    const removePokemon = (teamId, pokemonId) => {
-        alert("remove pokemon " + (pokemonId + 1) + " from team " + teamId)
-    }
-    const removeTeam = (teamId) => {
-        alert("remove team " + teamId)
-    }
-</script>
+
 

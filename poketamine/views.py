@@ -138,3 +138,42 @@ def team(request):
         teams = []
     context = {"teams": teams}
     return render(request, 'poketamine/team.html', context)
+
+@csrf_exempt
+def removeTeam(request):
+    if request.method == "POST":
+        try:
+            body = json.loads(request.body)
+            with open("team.json", "r") as file:
+                teams = json.load(file)
+                teamId = str(body.get("teamId"))
+                teams.pop(teamId)
+            with open("team.json", "w") as file:
+                file.write(json.dumps(teams))
+            return HttpResponse("Success")
+        except:
+            return HttpResponse("Error", status=500)
+        
+
+@csrf_exempt
+def removePokemon(request):
+    if request.method == "POST":
+        try:
+            body = json.loads(request.body)
+            with open("team.json", "r") as file:
+                teams = json.load(file)
+                teamId = str(body.get("teamId"))
+                pokemonId = int(body.get("pokemonId"))
+                tmp = teams.get(teamId).get("pokemons")
+                tmp.pop(pokemonId)
+                if len(tmp) == 0:
+                    teams.pop(teamId)
+                    with open("team.json", "w") as file:
+                        file.write(json.dumps(teams))
+                    return HttpResponse("Success")
+                teams.get(teamId).update({"pokemons": tmp})
+            with open("team.json", "w") as file:
+                file.write(json.dumps(teams))
+            return HttpResponse("Success")
+        except:
+            return HttpResponse("Error", status=500)

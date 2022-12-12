@@ -7,4 +7,6 @@ urlpatterns = [
     path('details/<str:pokemon>/', views.details, name='details'),
     path('addToTeam/', views.addToTeam, name='addToTeam'),
     path('team/', views.team, name='team'),
+    path('removeTeam/', views.removeTeam, name='removeTeam'),
+    path('removePokemon/', views.removePokemon, name='removePokemon')
 ]
