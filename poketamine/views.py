@@ -101,6 +101,7 @@ def details(_, pokemon: str):
     context = {'pokemon': pokemonDetails}
     return render(_, 'poketamine/details.html', context)
 
+# function to add a pokemon to a team
 @csrf_exempt
 def addToTeam(request):
     if request.method == "POST":
@@ -112,6 +113,7 @@ def addToTeam(request):
             with open("pokemons.json", "r") as file:
                 pokemons = json.load(file)
             pokemon = list(filter(lambda x: x.get("name") == body.get("name"), pokemons))[0]
+            # check if team is full
             try:
                 if len(team[body.get("teamId")]["pokemons"]) == 6:
                     return HttpResponse("Team is full", status=406)
@@ -120,7 +122,6 @@ def addToTeam(request):
                 team.update({
                     body.get("teamId"): {"teamId": body.get("teamId"), "pokemons": [pokemon]}
                 })
-
             with open("team.json", "w") as file:
                 file.write(json.dumps(team))
             return HttpResponse("Success")
@@ -129,7 +130,7 @@ def addToTeam(request):
             return HttpResponse("Error", status=500)
     else:
         return HttpResponse("Error 404", status=404)
-    
+# team page    
 def team(request):
     try:
         with open("team.json", "r") as file:
@@ -138,7 +139,7 @@ def team(request):
         teams = []
     context = {"teams": teams}
     return render(request, 'poketamine/team.html', context)
-
+# function to remove a team
 @csrf_exempt
 def removeTeam(request):
     if request.method == "POST":
@@ -154,7 +155,7 @@ def removeTeam(request):
         except:
             return HttpResponse("Error", status=500)
         
-
+# function to remove a pokemon from a team
 @csrf_exempt
 def removePokemon(request):
     if request.method == "POST":
@@ -166,6 +167,7 @@ def removePokemon(request):
                 pokemonId = int(body.get("pokemonId"))
                 tmp = teams.get(teamId).get("pokemons")
                 tmp.pop(pokemonId)
+                # check if team is empty
                 if len(tmp) == 0:
                     teams.pop(teamId)
                     with open("team.json", "w") as file:
