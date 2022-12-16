@@ -6,7 +6,7 @@
 
   <nav class="navbar bg-light">
     <div class="container-md">
-      <a text-decoration=none class="navbar-brand" href="/poketamine">Pokétamine</a>
+      <a  class="navbar-brand" href="/poketamine">Pokétamine</a>
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
          <a class="nav-link active" aria-current="page" href="/poketamine/team"><button class="btn btn-light">Go to teams</button></a>
@@ -20,20 +20,24 @@
   </nav>
 
 
-    
+<br>
+<br>
+<br>
 
 
-<div class="container text-center">
+
+<div class="container">
     <div class="row">
         <div class="col align-self-center">
     
 {% if pokemons %}
 
     {% for pokemon in pokemons %}
+    <br>
     <div class="card" style="width: 18rem;">
-        <a href="/poketamine/details/{{ pokemon.name }}">
+        <a style="text-decoration:none;color:#000000" href="/poketamine/details/{{ pokemon.name }}">
             <img class="card-img-top" src={{ pokemon.image }}></img>
-        
+        <hr>
         <div class="card-body">
           <h5 class="card-title">{{ pokemon.name.capitalize }}</h5>
           
@@ -45,7 +49,7 @@
         </div>
       </div>
     
-            
+      <br> 
         
     {% endfor %}
     
