@@ -5,11 +5,17 @@
 
 <nav class="navbar bg-light">
     <div class="container-md">
-      <a text-decoration=none class="navbar-brand" href="/poketamine">Pokétamine</a>
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <a  class="navbar-brand" href="/poketamine"><img width="35%" src="https://fontmeme.com/permalink/221216/8821a38ccf8bf4b7c25c6026047670e3.png" alt="police-pokemon" border="0"></a>
+      
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+           
         <li class="nav-item">
-         <a class="nav-link active" aria-current="page" href="/poketamine/team"><button class="btn btn-light">Go to teams</button></a>
+         <a class="nav-link active" aria-current="page" href="/poketamine/team">Go to teams</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/poketamine">Go to list</a>
+          </li>
+  
       </ul>
       <form class="d-flex" action="/poketamine" role="search">
         <input class="form-control me-2" name="search" type="text" placeholder="Search for a pokemon" aria-label="Search">
@@ -55,36 +61,64 @@
             }
     };
 </script>
-<h1>Teams</h1>
-<a href="/poketamine/">
-    <button>Back to the list</button>
-</a>
+
+<div class="container">
+    
+       
+        
+    <h1>Teams</h1>
+<br>
 {% if teams %}
-<ul>
+
     {% for key, team in teams.items %}
-        <li>
-            <h2>Team Number: {{ team.teamId }}</h2>
-            <button type="button" onclick="removeTeam({{ key }})">Delete Team</button>
-            <ul>
+    <h2>Team Number: {{ team.teamId }}</h2>
+    <button class="btn btn-danger" type="button" onclick="removeTeam({{ key }})">Delete Team</button>
+       
+    
+        
+            
+            <div class="row">
                 {% for pokemon in team.pokemons %}
-                    <li>
-                        <h3>{{ pokemon.name }}</h3>
-                        <image src={{ pokemon.image }}></image>
-                        <p>Id: {{ pokemon.id }}</p>
-                        <p>Types: {{ pokemon.types }}</p>
-                        <p>Height: {{ pokemon.height }}</p>
-                        <p>Weight: {{ pokemon.weight }}</p>
-                        <p>Moves: {{ pokemon.moves }}</p>
-                        <button type="button" onclick="removePokemon({{ team.teamId}} , {{forloop.counter0}}  )">Delete Pokemon From Team</button>
+                <div class="col-3">
+                <img width="60%" src={{ pokemon.image }}></img>
+                <h3>{{ pokemon.name.capitalize }}</h3>
+                <ul class="list-group">
+                    <li class="list-group-item">Id: {{ pokemon.id }}</li>
+                    <li class="list-group-item">Height: {{ pokemon.height }}</li>
+                    <li class="list-group-item">Weight: {{ pokemon.weight }}</li>
+                    <li class="list-group-item">Type(s) : 
+                        {% for type in pokemon.types %}
+                        {{type}}
+                        {%endfor%}</li>
+                    <li class="list-group-item d-flex justify-content-between">Best moves: 
+                        
+                        <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                          All moves
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                          {% for move in pokemon.moves%}
+                            <li><a class="dropdown-item">{{move}}</a></li>
+                            {%endfor%}
+                        </ul>
                     </li>
+                    <li class="list-group-item d-flex justify-content-center">
+                        <button type="button" class="btn btn-warning" onclick="removePokemon({{ team.teamId}} , {{forloop.counter0}}  )">Delete Pokemon From Team</button>
+                    </li>
+                    </ul>
+                </div>
                 {% endfor %}  
-            </ul>
-        </li>
+            
+        
+    </div>
     {% endfor %}
-    </ul>
+   
 {% else %}
     <p>No teams found.</p>
 {% endif %}
 
-
-
+</div>
+<div class="col-4">
+</div>
+</div>
+</div>
