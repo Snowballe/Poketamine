@@ -4,22 +4,27 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 
 
-  <nav class="navbar bg-light">
-    <div class="container-md">
-      <a  class="navbar-brand" href="/poketamine"><img width="35%" src="https://fontmeme.com/permalink/221216/8821a38ccf8bf4b7c25c6026047670e3.png" alt="police-pokemon" border="0"></a>
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+<nav class="navbar navbar-expand-lg bg-light">
+  <div class="container-md">
+    <a class="navbar-brand" href="/poketamine"><img width="35%" src="https://fontmeme.com/permalink/221216/8821a38ccf8bf4b7c25c6026047670e3.png" alt="police-pokemon" border="0"></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        
         <li class="nav-item">
-         <a class="nav-link active" aria-current="page" href="/poketamine/team"><button class="btn btn-light">Go to teams</button></a>
+          <a class="nav-link" aria-current="page" href="/poketamine/team">Go to teams</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/poketamine">Go to list</a>
+        </li>
+        
       </ul>
-      <form class="d-flex" action="/poketamine" role="search">
-        <input class="form-control me-2" name="search" type="text" placeholder="Search for a pokemon" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
     </div>
-  </nav>
-
-
+  </div>
+</nav>
 <br>
 <br>
 <br>
@@ -28,15 +33,13 @@
 
 <div class="container">
     <div class="row">
-      <div class="col-4">
-      </div>
-        <div class="col-4 align-self-center">
+     
     
 {% if pokemons %}
 
     {% for pokemon in pokemons %}
-    <br>
-    <div class="card" style="width: 18rem;">
+    
+    <div class="card mb-4" style="width: 18rem;">
         <a style="text-decoration:none;color:#000000" href="/poketamine/details/{{ pokemon.name }}">
             <img class="card-img-top" src={{ pokemon.image }}></img>
         <hr>
@@ -51,7 +54,9 @@
         </div>
       </div>
     
-      <br> 
+      <br>
+    
+      
         
     {% endfor %}
     
@@ -59,7 +64,6 @@
     <p>No pokemon found.</p>
 {% endif %}
 </div>
-<div class="col-4">
-</div>
+
 </div>
 </div>
