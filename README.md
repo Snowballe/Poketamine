@@ -10,6 +10,7 @@
 - [] Faire une jolie doc
 
 ## Commandes à effectuer :
+- pip install django
 - py manage.py migrate
 - py manage.py createsuperuser
     - username: admin
