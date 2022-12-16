@@ -64,7 +64,7 @@
     {% for key, team in teams.items %}
         <li>
             <h2>Team Number: {{ team.teamId }}</h2>
-            <button type="button" onclick="removeTeam({ key })">Delete Team</button>
+            <button type="button" onclick="removeTeam({{ key }})">Delete Team</button>
             <ul>
                 {% for pokemon in team.pokemons %}
                     <li>
@@ -75,7 +75,7 @@
                         <p>Height: {{ pokemon.height }}</p>
                         <p>Weight: {{ pokemon.weight }}</p>
                         <p>Moves: {{ pokemon.moves }}</p>
-                        <button type="button" onclick="removePokemon({team.teamId} , {forloop.counter0} )">Delete Pokemon From Team</button>
+                        <button type="button" onclick="removePokemon({{ team.teamId}} , {{forloop.counter0}}  )">Delete Pokemon From Team</button>
                     </li>
                 {% endfor %}  
             </ul>
